@@ -19,6 +19,8 @@ extern "C" {
 
 SOAP_SOURCE_STAMP("@(#) soapServer.c ver 2.8.5 2011-12-14 08:23:26 GMT")
 
+#define COOKIE_DOMAIN "192.168.154.128"
+#define COOKIE_PATH "/"
 
 #ifdef WITH_FASTCGI
 SOAP_FMAC5 int SOAP_FMAC6 soap_serve(struct soap *soap)
@@ -91,10 +93,13 @@ SOAP_FMAC5 int SOAP_FMAC6 soap_serve(struct soap *soap)
 			if(soap->error != SOAP_NO_TAG && soap->error != SOAP_ZERO_CONTENT)
 				return soap_send_fault(soap);
 			else {
-				cwmp__reply_RPCMessage(soap);
+				soap_serve_request(soap);
 			}
 		}
 
+		soap_destroy(soap);
+		soap_end(soap);
+		
 	} while (soap->keep_alive);
 
 	soap_closesock(soap);	
@@ -105,7 +110,42 @@ SOAP_FMAC5 int SOAP_FMAC6 soap_serve(struct soap *soap)
 #ifndef WITH_NOSERVEREQUEST
 SOAP_FMAC5 int SOAP_FMAC6 soap_serve_request(struct soap *soap)
 {
+	char session[64], *cookie = 0;
+
+	
+	if(soap->error == SOAP_NO_TAG || soap->error == SOAP_ZERO_CONTENT) {
+		cookie = soap_cookie_value(soap,"sessionid", NULL, NULL);
+		if(!cookie)
+			return cwmp__reply_EmptyPost(soap);
+
+		/*
+		if(!chk_session_valid(soap, cookie))
+			return cwmp__reply_EmptyPost(soap);*/
+			
+		return cwmp__reply_RPCMessage();
+	}
+	
 	soap_peek_element(soap);
+
+ 	if (!soap_match_tag(soap, soap->tag, "cwmp:Inform")) {
+		// a new session
+		new_session_id(session, 1);
+		
+		soap_set_cookie(soap, "sessionid", session, NULL, NULL);
+		soap_set_cookie_expire(soap, "sessionid", get_cookie_expire(), NULL, NULL);
+
+		session2database(soap, session);
+ 	}
+	else {
+		cookie = soap_cookie_value(soap,"sessionid", NULL, NULL);
+		if(!cookie)
+			return cwmp__reply_EmptyPost(soap);
+
+		
+		if(!chk_session_valid(soap, cookie))
+			return cwmp__reply_EmptyPost(soap);
+	}
+
 	if (!soap_match_tag(soap, soap->tag, "cwmp:GetRPCMethodsResponse"))
 		return soap_serve___cwmp__GetRPCMethods(soap);
 	if (!soap_match_tag(soap, soap->tag, "cwmp:SetParameterValuesResponse"))
@@ -731,21 +771,6 @@ SOAP_FMAC5 int SOAP_FMAC6 cwmp__reply_EmptyPost(struct soap *soap)
 SOAP_FMAC5 int SOAP_FMAC6 cwmp__reply_RPCMessage(struct soap *soap)
 {
 	static int i = 0;
-
-#if 0
-	static char session[64];
-	const char *cookie;
-
-	// assign a session id
-	generateSessionID(session, 1);
-	cookie = soap_cookie_value(soap, "sessionid", NULL, NULL);
-	if(!cookie)
-		cookie = session;
-
-	//soap_set_cookie(soap, "sessionid", cookie, COOKIE_DOMAIN, COOKIE_PATH);
-	//soap_set_cookie_expire(soap, "sessionid", 5, COOKIE_DOMAIN, COOKIE_PATH);
-#endif
-
 	if(i == 0) 
 		cwmp__reply_GetRPCMethods(soap);
 	else if(i == 1)

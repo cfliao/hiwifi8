@@ -1,24 +1,11 @@
 
 #include "cwmp_namespaces.h"
+#include "httpget.h"
 
 #include <mysql/mysql.h>
+
 #include "session.h"
-
-
-MYSQL sql_instance, *sql_sock;
-
-inline MYSQL * get_sql_sock()
-{
-	return sql_sock;
-}
-
-inline MYSQL * get_sql_instance()
-{
-	return &sql_instance;
-}
-
-#define COOKIE_DOMAIN "192.168.154.128"
-#define COOKIE_PATH "/"
+#include "database.h"
 
 
 #include "cwmp_acs_stub.c"
@@ -31,29 +18,8 @@ SOAP_FMAC5 int SOAP_FMAC6 __cwmp__Inform(
 {
 	unsigned long ip = 0;
 	char buf[256];
-	static char session[64];
-	const char *cookie;
 	
 	ip = soap->ip;
-
-	// assign a session id
-	generateSessionID(session, 1);
-	/*
-	sprintf(buf, "insert into session values('%s', '%ld.%ld.%ld.%ld', '%s', NULL)",
-				session,
-				(ip >>24)&0xFF, (ip >>16)&0xFF, (ip >>8)&0xFF, ip &0xFF,
-				cwmp__Inform->DeviceId->SerialNumber);
-	if(mysql_query(get_sql_sock(), buf)) {
-		DBGLOG(TEST, SOAP_MESSAGE(fdebug, "failed to create session\n"));
-		return SOAP_OK;
-	}*/
-
-	cookie = soap_cookie_value(soap, "sessionid", NULL, NULL);
-	if(!cookie)
-		cookie = session;
-
-	soap_set_cookie(soap, "sessionid", cookie, COOKIE_DOMAIN, COOKIE_PATH);
-	soap_set_cookie_expire(soap, "sessionid", 5, COOKIE_DOMAIN, COOKIE_PATH);
 	
 	sprintf(buf, "insert into log values(0, '%ld.%ld.%ld.%ld', NULL, 1, '%s', '%s')", 
 				(ip >>24)&0xFF, (ip >>16)&0xFF, (ip >>8)&0xFF, ip &0xFF, 
@@ -75,17 +41,6 @@ SOAP_FMAC5 int SOAP_FMAC6 __cwmp__TransferComplete(
 	char buf[256];
 	unsigned long ip = 0;
 	ip = soap->ip;
-	char session[64];
-	const char *cookie;
-
-	generateSessionID(session, 1);
-	cookie = soap_cookie_value(soap, "sessionid", NULL, NULL);
-	if(!cookie)
-		cookie = session;
-
-	soap_set_cookie(soap, "sessionid", cookie, COOKIE_DOMAIN, COOKIE_PATH);
-	soap_set_cookie_expire(soap, "sessionid", 5, COOKIE_DOMAIN, COOKIE_PATH);
-
 	
 	sprintf(buf, "insert into log values(0, '%ld.%ld.%ld.%ld', NULL, 1, '0', '%s')", 
 				(ip >>24)&0xFF, (ip >>16)&0xFF, (ip >>8)&0xFF, ip &0xFF, __func__);
@@ -106,17 +61,6 @@ SOAP_FMAC5 int SOAP_FMAC6 __cwmp__AutonomousTransferComplete(
 	unsigned long ip = 0;
 	ip = soap->ip;
 
-	char session[64];
-	const char *cookie;
-
-	generateSessionID(session, 1);
-	cookie = soap_cookie_value(soap, "sessionid", NULL, NULL);
-	if(!cookie)
-		cookie = session;
-
-	soap_set_cookie(soap, "sessionid", cookie, COOKIE_DOMAIN, COOKIE_PATH);
-	soap_set_cookie_expire(soap, "sessionid", 5, COOKIE_DOMAIN, COOKIE_PATH);
-
 	sprintf(buf, "insert into log values(0, '%ld.%ld.%ld.%ld', NULL, 1, '0', '%s')", 
 				(ip >>24)&0xFF, (ip >>16)&0xFF, (ip >>8)&0xFF, ip &0xFF, __func__);
 	if(mysql_query(get_sql_sock(), buf)) {
@@ -134,17 +78,6 @@ SOAP_FMAC5 int SOAP_FMAC6 __cwmp__Kicked(
 	char buf[256];
 	unsigned long ip = 0;
 	ip = soap->ip;
-
-	char session[64];
-	const char *cookie;
-
-	generateSessionID(session, 1);
-	cookie = soap_cookie_value(soap, "sessionid", NULL, NULL);
-	if(!cookie)
-		cookie = session;
-
-	soap_set_cookie(soap, "sessionid", cookie, COOKIE_DOMAIN, COOKIE_PATH);
-	soap_set_cookie_expire(soap, "sessionid", 5, COOKIE_DOMAIN, COOKIE_PATH);
 
 	sprintf(buf, "insert into log values(0, '%ld.%ld.%ld.%ld', NULL, 1, '0', '%s')", 
 				(ip >>24)&0xFF, (ip >>16)&0xFF, (ip >>8)&0xFF, ip &0xFF, __func__);
@@ -164,17 +97,6 @@ SOAP_FMAC5 int SOAP_FMAC6 __cwmp__RequestDownload(
 	unsigned long ip = 0;
 	ip = soap->ip;
 
-	char session[64];
-	const char *cookie;
-
-	generateSessionID(session, 1);
-	cookie = soap_cookie_value(soap, "sessionid", NULL, NULL);
-	if(!cookie)
-		cookie = session;
-
-	soap_set_cookie(soap, "sessionid", cookie, COOKIE_DOMAIN, COOKIE_PATH);
-	soap_set_cookie_expire(soap, "sessionid", 5, COOKIE_DOMAIN, COOKIE_PATH);
-
 	sprintf(buf, "insert into log values(0, '%ld.%ld.%ld.%ld', NULL, 1, '0', '%s')", 
 				(ip >>24)&0xFF, (ip >>16)&0xFF, (ip >>8)&0xFF, ip &0xFF, __func__);
 	if(mysql_query(get_sql_sock(), buf)) {
@@ -191,17 +113,6 @@ SOAP_FMAC5 int SOAP_FMAC6 __cwmp__Fault(
 	char buf[256];
 	unsigned long ip = 0;
 	ip = soap->ip;
-
-	char session[64];
-	const char *cookie;
-
-	generateSessionID(session, 1);
-	cookie = soap_cookie_value(soap, "sessionid", NULL, NULL);
-	if(!cookie)
-		cookie = session;
-
-	soap_set_cookie(soap, "sessionid", cookie, COOKIE_DOMAIN, COOKIE_PATH);
-	soap_set_cookie_expire(soap, "sessionid", 5, COOKIE_DOMAIN, COOKIE_PATH);
 
 	sprintf(buf, "insert into log values(0, '%ld.%ld.%ld.%ld', NULL, 1, '0', '%s')", 
 				(ip >>24)&0xFF, (ip >>16)&0xFF, (ip >>8)&0xFF, ip &0xFF, __func__);
@@ -238,6 +149,14 @@ int main(int argc, char **argv)
 	int m, s, i;
 	//soap_init2(&soap, SOAP_IO_KEEPALIVE, SOAP_IO_KEEPALIVE);
 	soap_init(&soap);
+
+#ifdef WITH_COOKIES
+	// Cookie Support Initial
+	init_session_env();
+	soap.cookie_domain = get_cookie_domain();
+	soap.cookie_path = get_cookie_path();
+#endif
+
 	//soap.max_keep_alive = 100; // at most 100 call per keep-alive session
 	//soap.accept_timeout = 90; // Option: let server time out after 1.5 minutes of inactivity
 
@@ -246,15 +165,9 @@ int main(int argc, char **argv)
 	soap.cookie_domain = "...";
 	soap.cookie_path = "/";	//the path which is used to filter/set cookies with this destination */
 
-	mysql_init(&sql_instance);
-	
-	if(!(sql_sock = mysql_real_connect(&sql_instance, "localhost", "root", "12345678",
-						"acs", 0, NULL, 0))) {
-						
-		//DBGLOG(TEST, SOAP_MESSAGE(fdebug, "insert log failed\n%s\n", mysql_error(get_sql_instance())));
+	if(!database_connect())
 		return -1;
-	}
-
+	
 #ifdef WITH_FASTCGI
 	//soap_getenv_cookies(&soap); // CGI app: grab cookies from 'HTTP COOKIE' env var
 	return soap_serve(&soap);
@@ -284,8 +197,6 @@ int main(int argc, char **argv)
 			pthread_create(&tid, NULL, (void *(*)(void*))process_request, (void*)tsoap);
 		}
 	}
-
-	mysql_close(sql_sock);
 
 	/*
 	soap_destroy(&soap); // clean up class instances
