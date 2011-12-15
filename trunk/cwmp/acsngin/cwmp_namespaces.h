@@ -1,5 +1,4 @@
 
-#include "soapH.h"
 SOAP_NMAC struct Namespace namespaces[] =
 {
 	{"SOAP-ENV", "http://schemas.xmlsoap.org/soap/envelope/", "http://www.w3.org/*/soap-envelope", NULL},
