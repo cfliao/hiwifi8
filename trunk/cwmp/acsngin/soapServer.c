@@ -112,16 +112,14 @@ SOAP_FMAC5 int SOAP_FMAC6 soap_serve_request(struct soap *soap)
 {
 	char session[64], *cookie = 0;
 
-	
 	if(soap->error == SOAP_NO_TAG || soap->error == SOAP_ZERO_CONTENT) {
 		cookie = soap_cookie_value(soap,"sessionid", NULL, NULL);
 		if(!cookie)
 			return cwmp__reply_EmptyPost(soap);
 
-		/*
 		if(!chk_session_valid(soap, cookie))
-			return cwmp__reply_EmptyPost(soap);*/
-			
+			return cwmp__reply_EmptyPost(soap);
+		
 		return cwmp__reply_RPCMessage();
 	}
 	
