@@ -6,7 +6,7 @@
 #include <mysql/mysql.h>
 #include "database.h"
 
-int log2database(struct soap* soap, char *message)
+int log2db(struct soap* soap, char *message)
 {
 	char buf[256];
 	register unsigned long ip = 0;
