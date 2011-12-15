@@ -1,6 +1,35 @@
 
 #include "soapH.h"
 
+#include <lua5.1/lua.h>
+#include <lua5.1/lualib.h>
+#include <lua5.1/lauxlib.h>
+
+const char LUA_SCRIPT[] =
+    "function loop_add(a, b)            "
+    "   local sum = 0                   "
+    "   for i = 1, 10000000 do          "
+    "       sum = sum + a + b           "
+    "   end                             "
+    "   return sum                      "
+    "end                                "
+    "                                   "
+    "function add(a, b)                 "
+    "   return a + b                    "
+    "end                                "
+    ;
+
+int luaadd(lua_State *L, int x, int y)
+{
+	register sum;
+	
+	lua_getglobal(L, "add");
+	lua_pushnumber(L, x);
+	lua_pushnumber(L, y);
+	lua_call(L, 2, 1);
+	sum = lua_tointeger(L, -1);
+	return sum;
+}
 
 SOAP_FMAC5 int SOAP_FMAC6 __cwmp__GetRPCMethods(
 	struct soap* soap, 
@@ -27,6 +56,16 @@ SOAP_FMAC5 int SOAP_FMAC6 __cwmp__GetRPCMethods(
         cwmp__GetRPCMethodsResponse->MethodList = &method;
         cwmp__GetRPCMethodsResponse->MethodList->__size = 14;
         cwmp__GetRPCMethodsResponse->MethodList->__ptrstring = &list[0];
+
+		lua_State *L = lua_open();
+		luaL_openlibs(L);
+		//luaL_dostring(L, LUA_SCRIPT);
+		luaL_dofile(L, "a.lua");
+
+		fprintf(stdout, "%s: sum=%d\n", __func__, luaadd(L, 10, 20));
+		
+		lua_close(L);
+		
 	return SOAP_OK;
 }
 	
