@@ -57,8 +57,8 @@ int session2database(struct soap* soap, const char *sessionid)
 	sock = get_sql_sock();
 
 	// clear old session;
-	sprintf(sql, "delete from session where Ip='%ld.%ld.%ld.%ld'", 	(ip >>24)&0xFF, (ip >>16)&0xFF, (ip >>8)&0xFF, ip &0xFF);
-	mysql_query(sock, sql);
+	//sprintf(sql, "delete from session where Ip='%ld.%ld.%ld.%ld'", 	(ip >>24)&0xFF, (ip >>16)&0xFF, (ip >>8)&0xFF, ip &0xFF);
+	//mysql_query(sock, sql);
 	
 	sprintf(sql, "insert into session values('%s', '%ld.%ld.%ld.%ld', '', NULL)",
 				sessionid,
