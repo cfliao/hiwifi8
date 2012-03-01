@@ -416,7 +416,7 @@ static const char *config_options[] = {
   "d", "enable_directory_listing", "no",
   "e", "error_log_file", NULL,
   "g", "global_passwords_file", NULL,
-  "i", "index_files", "index.html,index.htm,index.cgi",
+  "i", "index_files", "index.shtml,index.cgi",
   "k", "enable_keep_alive", "no",
   "l", "access_control_list", NULL,
   "M", "max_request_size", "16384",
