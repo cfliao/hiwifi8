@@ -413,7 +413,7 @@ static const char *config_options[] = {
   "S", "ssi_extensions", ".shtml,.shtm",
   "a", "access_log_file", NULL,
   "c", "ssl_chain_file", NULL,
-  "d", "enable_directory_listing", "yes",
+  "d", "enable_directory_listing", "no",
   "e", "error_log_file", NULL,
   "g", "global_passwords_file", NULL,
   "i", "index_files", "index.html,index.htm,index.cgi",
@@ -422,9 +422,9 @@ static const char *config_options[] = {
   "M", "max_request_size", "16384",
   "m", "extra_mime_types", NULL,
   "p", "listening_ports", "8080",
-  "r", "document_root",  ".",
+  "r", "document_root",  "/www",
   "s", "ssl_certificate", NULL,
-  "t", "num_threads", "10",
+  "t", "num_threads", "5",
   "u", "run_as_user", NULL,
   NULL
 };

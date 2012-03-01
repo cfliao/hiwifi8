@@ -3,8 +3,8 @@
 
 PROG=	mongoose
 
-all:
-	@echo "make (linux|bsd|solaris|mac|windows|mingw)"
+#all:
+#	@echo "make (linux|bsd|solaris|mac|windows|mingw)"
 
 # Possible COPT values: (in brackets are rough numbers for 'gcc -O2' on i386)
 # -DHAVE_MD5		- use system md5 library (-2kb)
@@ -31,8 +31,7 @@ LIB=		_$(PROG).so
 # If not so, this can break some on some Linux distros which use
 # "-Wl,--as-needed" turned on by default  in cc command.
 # Also, this is turned in many other distros in static linkage builds.
-linux:
-	$(CC) mongoose.c -shared -fPIC -fpic -o $(LIB) $(LINFLAGS)
+all:
 	$(CC) mongoose.c main.c -o $(PROG) $(LINFLAGS)
 
 bsd:
