@@ -1,4 +1,3 @@
-<!--#include virtual="layout/top.shtml" -->
 <form action="" method="post" id='lan_form'>
 <table width="50%" border="0"  style="margin: 10px">
 	<tr><td colspan="2">&nbsp;</td></tr>
@@ -53,4 +52,3 @@ $(function(){
 /* http://www.51240.com/jsmin/ */
 //$(function(){var lan_cfg=null;$.ajax({url:"/config.xml",success:function(xml){$(xml).find("configuration>network>interface>lan").each(function(){var lan=$(this);var ifname=lan.find('ifname').text();var proto=lan.find('proto').text();var ipaddr=lan.find('ipaddr').text();var netmask=lan.find('netmask').text();var gateway=lan.find('gateway').text();var dns=lan.find('dns').text();$('#lan_form input[name="ipaddr"]').val(ipaddr);$('#lan_form input[name="netmask"]').val(netmask);});}});});
 </script>
-<!--#include virtual="layout/bottom.shtml" -->

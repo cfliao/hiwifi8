@@ -1,4 +1,3 @@
-<!--#include virtual="layout/top.shtml" -->
 <table width="80%" border="0"  style="margin: 10px">
 	<tr>
 		<td>索引</td>
@@ -16,4 +15,3 @@ $(function(){
 
 });
 </script>
-<!--#include virtual="layout/bottom.shtml" -->

@@ -1,4 +1,3 @@
-<!--#include virtual="layout/top.shtml" -->
 <form action="dhcp" method="post" id="dhcp_form">
 <table width="50%" border="0"  style="margin: 10px">
 	<tr><td colspan="2">&nbsp;</td></tr>
@@ -78,4 +77,3 @@ $(function(){
 
 });
 </script>
-<!--#include virtual="layout/bottom.shtml" -->

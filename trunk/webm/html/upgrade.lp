@@ -1,4 +1,3 @@
-<!--#include virtual="layout/top.shtml" -->
 <table width="50%" border="0"  style="margin: 10px">
 	<tr><td colspan="2">&nbsp;</td></tr>
 	<tr>
@@ -51,4 +50,3 @@ $(function(){
 	$('#uploadbar').progressbar({value: 30});
 });
 </script>
-<!--#include virtual="layout/bottom.shtml" -->

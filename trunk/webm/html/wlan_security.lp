@@ -1,4 +1,3 @@
-<!--#include virtual="layout/top.shtml" -->
 <form action="" method="post">
 <table width="70%" border="0"  style="margin: 10px">
 	<tr><td colspan="2">&nbsp;</td></tr>
@@ -140,4 +139,3 @@ $(function(){
 
 });
 </script>
-<!--#include virtual="layout/bottom.shtml" -->

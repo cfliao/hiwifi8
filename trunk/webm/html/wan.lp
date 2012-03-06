@@ -1,4 +1,3 @@
-<!--#include virtual="layout/top.shtml" -->
 <form action="" method="">
 <table width="80%" border="0"  style="margin: 10px">
 	<tr><td colspan="2">&nbsp;</td></tr>
@@ -90,4 +89,3 @@ $(function(){
 		$("#begin_m,#end_m").append("<option value='" + i + "'>" + i + "</option>");
 });
 </script>
-<!--#include virtual="layout/bottom.shtml" -->
