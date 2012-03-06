@@ -1,4 +1,3 @@
-<!--#include virtual="layout/top.shtml" -->
 <table width="50%" border="0"  style="margin: 10px">
 	<tr><td colspan="2">&nbsp;</td></tr>
 	<tr>
@@ -29,4 +28,3 @@ $(function(){
 	$('#time_p').buttonset();
 });
 </script>
-<!--#include virtual="layout/bottom.shtml" -->

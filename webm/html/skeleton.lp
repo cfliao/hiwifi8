@@ -1,4 +1,3 @@
-<!--#include virtual="layout/top.shtml" -->
 <table width="100%">
 <tr>
 	<td>
@@ -45,4 +44,3 @@ $(function(){
 	$('#uptime').html("1小时20分钟32秒");
 });
 </script>
-<!--#include virtual="layout/bottom.shtml">
