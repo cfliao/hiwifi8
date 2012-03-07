@@ -400,32 +400,35 @@ enum {
   ENABLE_KEEP_ALIVE, ACCESS_CONTROL_LIST, MAX_REQUEST_SIZE,
   EXTRA_MIME_TYPES, LISTENING_PORTS,
   DOCUMENT_ROOT, SSL_CERTIFICATE, NUM_THREADS, RUN_AS_USER,
+  LP_EXTENSIONS, LP_INTERPRETER,
   NUM_OPTIONS
 };
 
 static const char *config_options[] = {
-  "C", "cgi_extensions", ".cgi,.pl,.php",
+  "C", "cgi_extensions", NULL,
   "E", "cgi_environment", NULL,
   "G", "put_delete_passwords_file", NULL,
-  "I", "cgi_interpreter", NULL,
+  "I", "cgi_interpreter", "/usr/bin/rlp",
   "P", "protect_uri", NULL,
   "R", "authentication_domain", "mydomain.com",
   "S", "ssi_extensions", ".shtml,.shtm",
   "a", "access_log_file", NULL,
   "c", "ssl_chain_file", NULL,
-  "d", "enable_directory_listing", "no",
+  "d", "enable_directory_listing", "yes",
   "e", "error_log_file", NULL,
   "g", "global_passwords_file", NULL,
-  "i", "index_files", "index.shtml,index.cgi",
+  "i", "index_files", "index.html,index.lp,index.cgi",
   "k", "enable_keep_alive", "no",
   "l", "access_control_list", NULL,
   "M", "max_request_size", "16384",
   "m", "extra_mime_types", NULL,
-  "p", "listening_ports", "8080",
+  "p", "listening_ports", "80",
   "r", "document_root",  "/www",
   "s", "ssl_certificate", NULL,
   "t", "num_threads", "5",
   "u", "run_as_user", NULL,
+  "v", "lp_extensions", ".lp,.rlp",
+  "w", "lp_interpreter", "/usr/bin/rlp",
   NULL
 };
 #define ENTRIES_PER_CONFIG_OPTION 3
@@ -3216,6 +3219,12 @@ static void handle_ssi_file_request(struct mg_connection *conn,
   }
 }
 
+static void handle_lp_file_request(struct mg_connection *conn,
+                                    const char *path) {
+	
+	handle_cgi_request(conn, path);
+}
+
 // This is the heart of the Mongoose's logic.
 // This function is called when the request is read, parsed and validated,
 // and Mongoose must decide what action to take: serve a file, or
@@ -3282,6 +3291,8 @@ static void handle_request(struct mg_connection *conn) {
     }
   } else if (match_extension(path, conn->ctx->config[SSI_EXTENSIONS])) {
     handle_ssi_file_request(conn, path);
+  } else if (match_extension(path, conn->ctx->config[LP_EXTENSIONS])) {
+    handle_lp_file_request(conn, path);
   } else if (is_not_modified(conn, &st)) {
     send_http_error(conn, 304, "Not Modified", "");
   } else {
