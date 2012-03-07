@@ -1,4 +1,4 @@
-<form action="" method="post" id='lan_form'>
+<form action="index.lp" method="post" id='lan_form'>
 <table width="50%" border="0"  style="margin: 10px">
 	<tr><td colspan="2">&nbsp;</td></tr>
 	<tr>
