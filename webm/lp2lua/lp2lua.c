@@ -4,24 +4,16 @@
 #define STATEMENT	"%s\n"
 #define VARIANT "io.write(tostring(%s))\n"
 
-int main(int argc, char **argv)
+int lp2lua(FILE *lp_file, FILE *lua_file)
 {
-	FILE *fp = NULL;
-	int ch, len, in_lua = 0, has_pair=0,in_ssi_tag = 0;
-	int in_parenthesis = 0, in_quotes = 0, in_string = 0;	
-	
-	int lua = 0, thesis1 =0, thesis2 = 0, thesis3 = 0, string = 0;
+	int ch, len;
+	int lua = 0, thesis1 =0, thesis2 = 0, string = 0;
 	          /* ( )         [ ] */
 	int string_type = 0; /* 1: "       2: ' */
 	int stmt_type = 0; /* 1: statement 2: variant */
 	char buf[BUFSIZ];
 
-	fp = fopen(argv[1], "r");
-	if(!fp) return -1;
-
-	fprintf(stdout, "Begin Parsing...\n");
-
-	while ((ch = fgetc(fp)) != EOF) {
+	while ((ch = fgetc(lp_file)) != EOF) {
 		if(lua) {
 			switch(ch) {
 				case '{':
@@ -40,7 +32,7 @@ int main(int argc, char **argv)
 						buf[len++] = ch;
 					else if(stmt_type == 1 && thesis1 == 0 && thesis2 == 0) {
 						buf[len] = '\0';
-						fprintf(stdout, STATEMENT, buf);
+						fprintf(lua_file, STATEMENT, buf);
 						len = 0; lua = 0; string = 0; string_type =0; stmt_type = 0; thesis1=0; thesis2=0;
 					}
 					else {
@@ -60,7 +52,7 @@ int main(int argc, char **argv)
 					buf[len++] = ch;
 					break;
 				case '[':
-					if(!string) 
+					if(!string)
 						thesis2 = 1;
 					buf[len++] = ch;
 				case ']':
@@ -75,7 +67,7 @@ int main(int argc, char **argv)
 					}
 					else if(string_type == 1 && len && buf[len-1] != '\\') {
 						/* string close */
-						string = 0;			
+						string = 0;
 						string_type = 0;
 					}
 					buf[len++] = ch;
@@ -90,6 +82,7 @@ int main(int argc, char **argv)
 						string = 0;
 						string_type = 0;
 					}
+					buf[len++] = ' ';
 					buf[len++] = ch;
 					break;
 				case ';':
@@ -101,12 +94,17 @@ int main(int argc, char **argv)
 					if(!string && !thesis1 && !thesis2 && stmt_type == 0) {
 						/* lua close */
 						buf[len] = '\0';
-						fprintf(stdout, VARIANT, buf);
+						fprintf(lua_file, VARIANT, buf);
 						len = 0; lua = 0; string = 0; string_type =0; stmt_type = 0; thesis1=0; thesis2=0;
 					}
-					else {
-						buf[len++] = ch;
+					buf[len++] = ch;
+					break;
+				case '@':
+					if(len == 0) {
+						len = 0;
+						lua = 0; string = 0; string_type =0; stmt_type = 0; thesis1=0; thesis2=0;
 					}
+					buf[len++] = ch;
 					break;
 				default:
 					//if(!stmt_type) stmt_type = 2;
@@ -117,7 +115,7 @@ int main(int argc, char **argv)
 		else if(ch == '@') {
 			if(len > 0) {
 				buf[len] = '\0';
-				fprintf(stdout, IOWRITE, buf);
+				fprintf(lua_file, IOWRITE, buf);
 			}
 			lua = 1; len = 0;
 		}
@@ -125,7 +123,7 @@ int main(int argc, char **argv)
 			buf[len++] = ch & 0xff;
 			if (len == (int) sizeof(buf)) {
 				buf[len] = '\0';
-				fprintf(stdout, IOWRITE, buf);
+				fprintf(lua_file, IOWRITE, buf);
 				len = 0;
 			}
 		}
@@ -133,7 +131,22 @@ int main(int argc, char **argv)
 
 	if(len) {
 		buf[len] = '\0';
-		fprintf(stdout, IOWRITE, buf);
+		fprintf(lua_file, IOWRITE, buf);
 	}
+
+	return 0;
+}
+
+int main(int argc, char **argv)
+{
+	FILE *fp = NULL;
+	
+	fp = fopen(argv[1], "r");
+	if(!fp) return -1;
+
+	fprintf(stdout, "Begin Parsing...\n");
+	
+	lp2lua(fp, stdout);
+	
 	fclose(fp);
 }
