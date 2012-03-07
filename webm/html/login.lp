@@ -64,7 +64,7 @@
 	<div class="ui-widget ui-widget-content ui-corner-all" style="width:350px;margin: 0 auto">
 		<div class="ui-dialog-titlebar ui-widget-header ui-helper-clearfix ui-dialog-titlebar-close ui-corner-top ui-dialog-title" style="text-align: center">Device Management Center</div>
 		<div>
-			<form action="/authorize" id="login_form">
+			<form action="index.lp" id="login_form">
 				<table width="50%" border="0"  style="margin: 0 auto">
 					<tr><td colspan="2">&nbsp;</td></tr>
 					<tr>

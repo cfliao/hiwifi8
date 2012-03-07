@@ -10,7 +10,13 @@ IsGet: @IsGet<br/>
 
 	<ul>
 	@{ for k, v in pairs(Server) do}
-		<li><strong>@k</strong>:<label>@v</label></li>
+		<li><strong>Server.@k</strong>:<label>@v</label></li>
+	@{ end }
+	</ul>
+
+	<ul>
+	@{ for k, v in pairs(Request) do}
+		<li><strong>Request.@k</strong>:<label>@v</label></li>
 	@{ end }
 	</ul>
 
