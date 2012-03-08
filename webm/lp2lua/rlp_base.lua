@@ -4,6 +4,9 @@ Get		= {}
 Request = {}
 Cookies	= {}
 Session	= {}
+Controller= {}
+View = {}
+Response = {}
 
 IsPost 	= false
 IsGet	= true
@@ -91,6 +94,8 @@ end
 function RenderBody()
 	if Server.RenderBody then
 		dofile(Server.RenderBody);
+	else
+		print("RenderBody null")
 	end
 end
 
@@ -102,8 +107,13 @@ function Authentication()
 	return true
 end
 
-function Controller()
-
+function doController()
+	local result
+	if Controller and Controller[Server.RenderBody] then
+		result = dofile(Server.RenderBody)
+	else
+		Response.IpAddress = "192.168.154.1"
+	end
 end
 
 InitClpBase()
@@ -111,7 +121,6 @@ if not Authentication() then
 	dofile("/www/login.lp")
 end
 
-Controller()
-
+doController()
 print("Content-type: text/html\r\n");
 Layout();
