@@ -122,5 +122,5 @@ if not Authentication() then
 end
 
 doController()
-print("Content-type: text/html\r\n");
+print("Content-type: text/html\r\n\r\n");
 Layout();
