@@ -10,11 +10,11 @@
 	</tr>
 	<tr>
 		<td><label for="ipaddr">IP Address</label></td>
-		<td><input type="text" name='ipaddr'/></td>
+		<td><input type="text" name='ipaddr' value="@ipaddr"/></td>
 	</tr>
 	<tr>
 		<td><label for="netmask">Subnet Mask</label></td>
-		<td><input type="text" name='netmask'/></td>
+		<td><input type="text" name='netmask' value="@netmask"/></td>
 	</tr>
 	<tr>
 		<td colspan="2"><hr/></td>
@@ -28,27 +28,3 @@
 	</tr>
 </table>
 </form>
-<script type="text/javascript">
-$(function(){
-	$.ajax({
-		url:"/config.xml",
-		success:function(xml){
-			$(xml).find("configuration>network>interface>lan").each(function(){
-				var lan = $(this);
-				var ifname = lan.find('ifname').text();
-				var proto  = lan.find('proto').text();
-				var ipaddr = lan.find('ipaddr').text();
-				var netmask= lan.find('netmask').text();
-				var gateway= lan.find('gateway').text();
-				var dns	   = lan.find('dns').text();
-
-				$('#lan_form input[name="ipaddr"]').val(ipaddr);
-				$('#lan_form input[name="netmask"]').val(netmask);
-			});
-        }
-    });
-});
-
-/* http://www.51240.com/jsmin/ */
-//$(function(){var lan_cfg=null;$.ajax({url:"/config.xml",success:function(xml){$(xml).find("configuration>network>interface>lan").each(function(){var lan=$(this);var ifname=lan.find('ifname').text();var proto=lan.find('proto').text();var ipaddr=lan.find('ipaddr').text();var netmask=lan.find('netmask').text();var gateway=lan.find('gateway').text();var dns=lan.find('dns').text();$('#lan_form input[name="ipaddr"]').val(ipaddr);$('#lan_form input[name="netmask"]').val(netmask);});}});});
-</script>

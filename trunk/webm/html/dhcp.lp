@@ -35,11 +35,11 @@
 	</tr>
 	<tr>
 		<td><label for="password">Primary DNS</label></td>
-		<td><input type="text"/>(optional)</td>
+		<td><input type="text" name="dns1"/>(optional)</td>
 	</tr>
 	<tr>
 		<td><label for="password">Secondary DNS</label></td>
-		<td><input type="text"/>(optional)</td>
+		<td><input type="text" name="dns2"/>(optional)</td>
 	</tr>
 	<tr>
 		<td colspan="2"><hr/></td>

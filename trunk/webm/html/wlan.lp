@@ -39,18 +39,18 @@
 	<tr>
 		<td><label for="name">Mode</label></td>
 		<td>
-			<select>
-				<option>11b only</option>
-				<option>11g only</option>
-				<option>11bg mixed</option>
-				<option>11bgn mixed</option>
+			<select name="hw_mode">
+				<option value="">11b only</option>
+				<option value="">11g only</option>
+				<option value="">11bg mixed</option>
+				<option value="">11bgn mixed</option>
 			</select>
 		</td>
 	</tr>
 	<tr>
 		<td><label for="name">频段带宽</label></td>
 		<td>
-			<select>
+			<select name="bandwith">
 				<option>Automatic</option>
 				<option>20MHz</option>
 				<option>40Mhz</option>

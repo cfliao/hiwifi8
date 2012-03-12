@@ -408,7 +408,7 @@ static const char *config_options[] = {
   "C", "cgi_extensions", NULL,
   "E", "cgi_environment", NULL,
   "G", "put_delete_passwords_file", NULL,
-  "I", "cgi_interpreter", "/usr/bin/rlp",
+  "I", "cgi_interpreter", "/usr/sbin/rlp",
   "P", "protect_uri", NULL,
   "R", "authentication_domain", "mydomain.com",
   "S", "ssi_extensions", ".shtml,.shtm",

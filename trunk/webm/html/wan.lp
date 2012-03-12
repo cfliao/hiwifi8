@@ -7,11 +7,11 @@
 	<tr>
 		<td><label for="name">Connection Type</label></td>
 		<td>
-			<select name="conn_type">
-				<option>Dynamic IP</option>
-				<option>Static IP</option>
-				<option>PPPoE</option>
-				<option>PPTP</option>
+			<select name="proto">
+				<option value="dhcp">Dynamic IP</option>
+				<option value="static">Static IP</option>
+				<option value="pppoe">PPPoE</option>
+				<option value="pptp">PPTP</option>
 			</select>
 		</td>
 	</tr>
@@ -21,41 +21,41 @@
 	</tr>
 	<tr>
 		<td><label for="password">&nbsp;&nbsp;&nbsp;&nbsp;User Name</label></td>
-		<td><input type="text" value="user123@adsl" /></td>
+		<td><input type="text" name="username" value="@username" /></td>
 	</tr>
 	<tr>
 		<td><label for="password">&nbsp;&nbsp;&nbsp;&nbsp;Password</label></td>
-		<td><input type="password" value="1234567"/></td>
+		<td><input type="password" name="password" value="@password"/></td>
 	</tr>
 	<tr>
 		<td><label for="password">Default Gateway</label></td>
-		<td><input type="text" value="192.168.1.1" /></td>
+		<td><input type="text" name="gateway" value="@gateway" /></td>
 	</tr>
 	<tr>
 		<td><label for="password">Connection Mode</label></td>
 		<td>
 			<div id="conn_mode">
-			<input type="radio" id="conn_mode1" name="dhcp_status" value="1" /><label for="conn_mode1">On Demand</label>
-			<input type="radio" id="conn_mode2" name="dhcp_status" value="2" /><label for="conn_mode2">Automatically</label>
-			<input type="radio" id="conn_mode3" name="dhcp_status" value="3" /><label for="conn_mode3">Time-based</label>
-			<input type="radio" id="conn_mode4" name="dhcp_status" value="4" checked /><label for="conn_mode4">Manually</label>
+			<input type="radio" id="conn_mode1" name="pppoe_mode" value="1" /><label for="conn_mode1">On Demand</label>
+			<input type="radio" id="conn_mode2" name="pppoe_mode" value="2" /><label for="conn_mode2">Automatically</label>
+			<input type="radio" id="conn_mode3" name="pppoe_mode" value="3" /><label for="conn_mode3">Time-based</label>
+			<input type="radio" id="conn_mode4" name="pppoe_mode" value="4" checked /><label for="conn_mode4">Manually</label>
 			</div>
 		</td>
 	</tr>
 	<tr>
 		<td><label for="password">&nbsp;&nbsp;&nbsp;&nbsp;Max Idle Time</label></td>
-		<td><input type="text" value="" style="width: 80px"/>minutes (0 means remain active at all times.)</td>
+		<td><input type="text" name="maxidle" value="" style="width: 80px"/>minutes (0 means remain active at all times.)</td>
 	</tr>
 	<tr>
 		<td><label for="password">&nbsp;&nbsp;&nbsp;&nbsp;Period of Time</label></td>
 		<td>
-			<select id="begin_h" />
-			</select>:
-			<select  id="begin_m">
+			<select id="begin_h" name="begin_h">
+			</select>:]
+			<select  id="begin_m" name="begin_m">
 			</select>(HH:MM) to
-			<select id="end_h">
+			<select id="end_h" name="end_h">
 			</select>:
-			<select  id="end_m">
+			<select  id="end_m" name="end_m">
 			</select>(HH:MM)
 		</td>
 	</tr>
