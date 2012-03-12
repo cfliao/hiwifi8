@@ -7,10 +7,10 @@
 	<tr>
 		<td><label for="name">安全类型</label></td>
 		<td>
-			<input type="radio" id="dhcp_d" name="dhcp_status" value="1" checked /><label for="dhcp_d">不开启无线安全</label>
-			<input type="radio" id="dhcp_e" name="dhcp_status" value="2"  /><label for="dhcp_e">WPA-PSK/WPA2-PSK</label>
-			<input type="radio" id="dhcp_e" name="dhcp_status" value="2"  /><label for="dhcp_e">WPA/WPA2</label>
-			<input type="radio" id="dhcp_e" name="dhcp_status" value="2"  /><label for="dhcp_e">WEP</label>
+			<input type="radio" id="enc_none" name="encryption" value="none" checked /><label for="enc_none">不开启无线安全</label>
+			<input type="radio" id="enc_psk2" name="encryption" value="psk2"  /><label for="enc_psk2">WPA-PSK/WPA2-PSK</label>
+			<input type="radio" id="enc_wpa2" name="encryption" value="wpa2"  /><label for="enc_wpa2">WPA/WPA2</label>
+			<input type="radio" id="enc_wep" name="encryption" value="wep"  /><label for="enc_wep">WEP</label>
 		</td>
 	</tr>
 	<tr>

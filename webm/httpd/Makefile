@@ -25,7 +25,7 @@ PROG=	mongoose
 CFLAGS=		-W -Wall -std=c99 -pedantic -O2 $(COPT)
 MAC_SHARED=	-flat_namespace -bundle -undefined suppress
 LINFLAGS=	-ldl -pthread $(CFLAGS)
-LIB=		lib$(PROG).so
+LIBS=		-llua -lm -pthread -lcrypt -ldl
 
 # Make sure that the compiler flags come last in the compilation string.
 # If not so, this can break some on some Linux distros which use
@@ -33,21 +33,8 @@ LIB=		lib$(PROG).so
 # Also, this is turned in many other distros in static linkage builds.
 all:
 	$(CC) mongoose.c main.c -o $(PROG) $(LINFLAGS)
-
-bsd:
-	$(CC) mongoose.c -shared -pthread -fpic -fPIC -o $(LIB) $(CFLAGS)
-	$(CC) mongoose.c main.c -pthread -o $(PROG) $(CFLAGS)
-
-mac:
-	$(CC) mongoose.c -pthread -o $(LIB) $(MAC_SHARED) $(CFLAGS)
-	$(CC) mongoose.c main.c -pthread -o $(PROG) $(CFLAGS)
-
-solaris:
-	gcc mongoose.c -pthread -lnsl \
-		-lsocket -fpic -fPIC -shared -o $(LIB) $(CFLAGS)
-	gcc mongoose.c main.c -pthread -lnsl -lsocket -o $(PROG) $(CFLAGS)
-
-
+	$(CC) rlp.c lparser.c -o rlp $(LIBS)
+	$(CC) lp2lua.c lparser.c -o lp2lua $(LIBS)
 ##########################################################################
 ###            WINDOWS build: Using Visual Studio or Mingw
 ##########################################################################
