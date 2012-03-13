@@ -46,26 +46,26 @@ int lp2lua(FILE *lp_file, FILE *lua_file)
 					}
 					break;
 				case '(':
-					if(!string)
+					if(stmt_type == 0 && !string)
 						thesis1 = 1;
 					buf[len++] = ch;
 					break;
 				case ')':
-					if(!string)
+					if(stmt_type == 0 && !string)
 						thesis1 = 0;
 					buf[len++] = ch;
 					break;
 				case '[':
-					if(!string)
+					if(stmt_type == 0 && !string)
 						thesis2 = 1;
 					buf[len++] = ch;
 				case ']':
-					if(!string)
+					if(stmt_type == 0 && !string)
 						thesis2 = 0;
 					buf[len++] = ch;
 					break;
 				case '"':
-					if(!string) {
+					if(stmt_type == 0 && !string) {
 						if(!thesis1 && !thesis2) {
 							buf[len] = '\0';
 							fprintf(lua_file, VARIANT, buf);
@@ -131,7 +131,7 @@ int lp2lua(FILE *lp_file, FILE *lua_file)
 		}
 		else {
 			buf[len++] = ch & 0xff;
-			if (len == ((int) sizeof(buf) -1)) {
+			if (len == ((int) sizeof(buf)-1)) {
 				buf[len] = '\0';
 				fprintf(lua_file, IOWRITE, buf);
 				len = 0;
