@@ -1,3 +1,15 @@
+@{
+	require("uci")
+
+	u = uci.cursor()
+	t = uci.cursor(nil, "/var/state")
+		
+	ipaddr=u:get("network", "lan", "ipaddr")
+	if ipaddr == nil then
+		ipaddr = t:get("network", "lan", "ipaddr")
+		netmask = t:get("network", "lan", "netmask")
+	end	
+}
 <form action="index.lp" method="post" id='lan_form'>
 <table width="50%" border="0"  style="margin: 10px">
 	<tr><td colspan="2">&nbsp;</td></tr>
@@ -28,3 +40,7 @@
 	</tr>
 </table>
 </form>
+<script type="text/javascript">
+$(function(){
+});
+</script>

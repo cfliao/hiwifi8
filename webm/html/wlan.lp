@@ -1,3 +1,16 @@
+@{
+	require("uci")
+	x = uci:cursor();
+	
+	status = x:get("wireless", "radio0", "disabled")
+	channel= x:get("wireless", "radio0", "channel")
+	hwmode = x:get("wireless", "radio0", "hwmode")
+
+	ssid = x:get("wireless", "cfg035a80", "ssid")
+	encryption=x:get("wireless", "cfg035a80", "encryption")
+	htmode=x:get("wireless", "radio0", "htmode")
+	
+}
 <form action="index.lp" method="post" id="wlan_form">
 <table width="50%" border="0"  style="margin: 10px">
 	<tr><td colspan="2">&nbsp;</td></tr>
@@ -8,6 +21,7 @@
 		<td><label for="name">WLAN</label></td>
 		<td>
 			<div id="wlan_status_p">
+				@status,
 				<input type="radio" id="wstatus1" name="wlan_status" value="1" checked /><label for="wstatus1">Enable</label>
 				<input type="radio" id="wstatus2" name="wlan_status" value="2" /><label for="wstatus2">Disable</label>
 			</div>
@@ -15,12 +29,12 @@
 	</tr>
 	<tr>
 		<td><label for="name">SSID</label></td>
-		<td><input type="text" name="ssid" id="ssid"/></td>
+		<td><input type="text" name="ssid" id="ssid" value="@ssid"/></td>
 	</tr>
 	<tr>
 		<td><label for="name">Channel</label></td>
 		<td>
-			<select name="channel" id="channel">
+			<select name="channel" id="channel" default="@channel">
 				<option value="auto">Auto</option>
 				<option value="1">1</option>
 				<option value="2">2</option>
@@ -39,18 +53,18 @@
 	<tr>
 		<td><label for="name">Mode</label></td>
 		<td>
-			<select name="hw_mode">
-				<option value="">11b only</option>
-				<option value="">11g only</option>
-				<option value="">11bg mixed</option>
-				<option value="">11bgn mixed</option>
+			<select name="hw_mode" default="@hwmode">
+				<option>11b only</option>
+				<option>11g only</option>
+				<option>11bg mixed</option>
+				<option>11bgn mixed</option>
 			</select>
 		</td>
 	</tr>
 	<tr>
 		<td><label for="name">频段带宽</label></td>
 		<td>
-			<select name="bandwith">
+			<select name="bandwith" default="@htmode">
 				<option>Automatic</option>
 				<option>20MHz</option>
 				<option>40Mhz</option>
