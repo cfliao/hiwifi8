@@ -20,8 +20,8 @@ $(function(){
 <table width="1002">
 <tr class="ui-corner-top">
 	<td colspan="2" style="text-align:right">
-<!--		<img src="/images/arubalogo.gif"> -->
-		<img src="/images/logo.png" />
+		<img src="/images/arubalogo.gif">
+<!--		<img src="/images/logo.png" /> -->
 	</td>
 </tr>
 <tr>
