@@ -1,3 +1,16 @@
+@{
+	uci = require("uci")
+	x = uci:cursor()
+	ut= uci:cursor(nil, "/var/state")
+		
+	proto = x:get("network", "wan", "proto")
+	username= x:get("network", "wan", "username")
+	password= x:get("network", "wan", "password")
+
+	ipaddr = ut:get("network", "wan", "ipaddr")
+	gateway= ut:get("network", "wan", "gateway")
+}
+
 <form action="index.lp" method="post">
 <table width="80%" border="0"  style="margin: 10px">
 	<tr><td colspan="2">&nbsp;</td></tr>
@@ -7,7 +20,7 @@
 	<tr>
 		<td><label for="name">Connection Type</label></td>
 		<td>
-			<select name="proto">
+			<select name="proto" default="@proto">
 				<option value="dhcp">Dynamic IP</option>
 				<option value="static">Static IP</option>
 				<option value="pppoe">PPPoE</option>
@@ -50,7 +63,7 @@
 		<td><label for="password">&nbsp;&nbsp;&nbsp;&nbsp;Period of Time</label></td>
 		<td>
 			<select id="begin_h" name="begin_h">
-			</select>:]
+			</select>:
 			<select  id="begin_m" name="begin_m">
 			</select>(HH:MM) to
 			<select id="end_h" name="end_h">
