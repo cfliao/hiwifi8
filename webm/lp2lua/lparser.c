@@ -10,7 +10,7 @@
 
 int lp2lua(FILE *lp_file, FILE *lua_file)
 {
-	int ch, len;
+	int ch, len = 0;
 	int lua = 0, thesis1 =0, thesis2 = 0, string = 0;
 	          /* ( )         [ ] */
 	int string_type = 0; /* 1: "       2: ' */
@@ -131,7 +131,7 @@ int lp2lua(FILE *lp_file, FILE *lua_file)
 		}
 		else {
 			buf[len++] = ch & 0xff;
-			if (len == (int) sizeof(buf)) {
+			if (len == ((int) sizeof(buf) -1)) {
 				buf[len] = '\0';
 				fprintf(lua_file, IOWRITE, buf);
 				len = 0;
