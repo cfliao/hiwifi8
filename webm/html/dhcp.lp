@@ -1,3 +1,20 @@
+@{
+	require("uci")
+	u = uci.cursor()
+	t = uci.cursor(nil, "/var/state")
+
+	ipaddr=u:get("network", "lan", "ipaddr")
+	if ipaddr == nil then
+		ipaddr = t:get("network", "lan", "ipaddr")
+	else
+		netmask = u:get("network", "lan", "netmask")
+	end
+	network = ipaddr
+	
+	start = tostring(network) .. u:get("dhcp", "lan", "start")
+	limit = tostring(network) .. u:get("dhcp", "lan", "limit")
+	leasetime= u:get("dhcp", "lan", "leasetime")
+}
 <form action="index.lp" method="post" id="dhcp_form">
 <table width="50%" border="0"  style="margin: 10px">
 	<tr><td colspan="2">&nbsp;</td></tr>
@@ -15,15 +32,15 @@
 	</tr>
 	<tr>
 		<td><label for="start">Start IP Address</label></td>
-		<td><input type="text" name="start" id="start"/></td>
+		<td><input type="text" name="start" id="start" value="@start"/></td>
 	</tr>
 	<tr>
 		<td><label for="limit">End IP Address</label></td>
-		<td><input type="text" name="limit" id="limit"/></td>
+		<td><input type="text" name="limit" id="limit" value="@limit"/></td>
 	</tr>
 	<tr>
 		<td><label for="leasetime">Address Lease Time</label></td>
-		<td><input type="text" name="leasetime" id="leasetime"/>Hours</td>
+		<td><input type="text" name="leasetime" id="leasetime" value="@leasetime"/>Hours</td>
 	</tr>
 	<tr>
 		<td><label for="password">Default Gateway</label></td>

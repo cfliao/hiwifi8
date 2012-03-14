@@ -8,7 +8,15 @@
 	if ipaddr == nil then
 		ipaddr = t:get("network", "lan", "ipaddr")
 		netmask = t:get("network", "lan", "netmask")
-	end	
+	else
+		netmask = u:get("network", "lan", "netmask")
+	end
+	
+	f = io.open("/sys/devices/platform/ag71xx.1/net/eth0/address", "r")
+	if f ~= nil then
+		macaddr = f:read("*all")
+		f:close()
+	end
 }
 <form action="index.lp" method="post" id='lan_form'>
 <table width="50%" border="0"  style="margin: 10px">
@@ -18,7 +26,7 @@
 	</tr>
 	<tr>
 		<td><label for="mac">MAC Address</label></td>
-		<td><span id='mac'>94-0C-6D-4B-99-2E</span></td>
+		<td><span id='mac'>@macaddr</span></td>
 	</tr>
 	<tr>
 		<td><label for="ipaddr">IP Address</label></td>
