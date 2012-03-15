@@ -64,6 +64,16 @@ int lp2lua(FILE *lp_file, FILE *lua_file)
 						thesis2 = 0;
 					buf[len++] = ch;
 					break;
+				case '@':
+					if(stmt_type == 0 && !string) {
+						if(!thesis1 && !thesis2) {
+							buf[len] = '\0';
+							fprintf(lua_file, VARIANT, buf);
+							len = 0; lua = 0; string = 0; string_type =0; stmt_type = 0; thesis1=0; thesis2=0;
+						}
+						lua = 1;
+					}
+					break;
 				case '"':
 					if(stmt_type == 0 && !string) {
 						if(!thesis1 && !thesis2) {
